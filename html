@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Ping Pong!</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="PINGONGCSS.css">
+</head>
+<body>
+    <h1> PONG </h1>
+    <p class="description"> Control player using the up and down arrow keys</p>
+    <div class="buttons">
+        <div><button class="play">Play</button></div>
+        <div><button class="pause">Pause</button></div>
+        <div><button class="restart">Restart</button></div>
+    </div>
+    <div class="modal" tabindex="-1" role="dialog" id="message-modal">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-body">
+              <h5 id="message"></h5>
+            </div>
+            <div class="modal-footer">
+              <button type="button" id="modalClose" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    <canvas id="canvas" width="700" height="700"></canvas>
+<script src="pinpongjs.js"></script>
+</body>
+</html>
