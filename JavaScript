@@ -1,0 +1,210 @@
+// Initialize canvas
+var canvas = document.getElementById("canvas");
+var ctx = canvas.getContext("2d");
+
+//buttons
+var closeBtn = document.querySelector(".modalClose");
+var startBtn = document.querySelector(".play");
+var pauseBtn = document.querySelector(".pause");
+var restartBtn = document.querySelector(".restart");
+var runGame = false;
+var animationId;
+
+startBtn.addEventListener('click', function(event){
+  if(!runGame) {
+    runGame = true;
+    loop();
+  }
+});
+
+pauseBtn.addEventListener('click', function(){
+    runGame = false;
+    cancelAnimationFrame(animationId);
+});
+
+restartBtn.addEventListener('click', function(event) {
+  document.location.reload();
+});
+
+addEventListener("load", (event)=> {
+  draw();
+});
+
+// Define ball properties
+var ballRadius = 15;
+var ballX = canvas.width / 2;
+var ballY = canvas.height / 2;
+var ballSpeedX = 3;
+var ballSpeedY = 3;
+
+// Define paddle properties
+var paddleHeight = 80;
+var paddleWidth = 10;
+var leftPaddleY = canvas.height / 2 - paddleHeight / 2;
+var rightPaddleY = canvas.height / 2 - paddleHeight / 2;
+var paddleSpeed = 10;
+
+// Define score properties
+var leftPlayerScore = 0;
+var rightPlayerScore = 0;
+var maxScore = 20;
+
+// Listen for keyboard events
+document.addEventListener("keydown", keyDownHandler);
+document.addEventListener("keyup", keyUpHandler);
+
+// Handle key press
+var upPressed = false;
+var downPressed = false;
+var wPressed = false;
+var sPressed = false;
+
+function keyDownHandler(e) {
+  if (e.key === "ArrowUp") {
+    upPressed = true;
+  } else if (e.key === "ArrowDown") {
+    downPressed = true;
+  } else if (e.key === "w") {
+    wPressed = true;
+  } else if (e.key === "s") {
+    sPressed = true;
+  }
+}
+
+// Handle key release
+function keyUpHandler(e) {
+  if (e.key === "ArrowUp") {
+    upPressed = false;
+  } else if (e.key === "ArrowDown") {
+    downPressed = false;
+  } else if (e.key === "w") {
+    wPressed = false;
+  } else if (e.key === "s") {
+    sPressed = false;
+  }
+}
+
+// Update game state
+function update() {
+  // Move paddles
+  if (upPressed && leftPaddleY > 0) {
+    leftPaddleY -= paddleSpeed;
+  } else if (downPressed && leftPaddleY + paddleHeight < canvas.height) {
+    leftPaddleY += paddleSpeed;
+  }
+
+  //AI PADDLE
+  var rightPaddleCenterY = rightPaddleY + paddleHeight / 2;
+  if (ballY < canvas.height / 2) {
+    //will move ai paddle when the ball is on the right side of the board
+    if (rightPaddleCenterY < ballY - paddleHeight / 4) {
+      //paddle moves down
+      rightPaddleY += paddleSpeed / 2; //decreased speed to allow user to win!
+    } else if (rightPaddleCenterY > ballY + paddleHeight / 4) {
+      //move paddle up
+      rightPaddleY -= paddleSpeed / 2; 
+    }
+  }
+
+  // Move ball
+  ballX += ballSpeedX;
+  ballY += ballSpeedY;
+
+  // Check if ball collides with top or bottom of canvas
+  if (ballY - ballRadius < 0 || ballY + ballRadius > canvas.height) {
+    ballSpeedY = -ballSpeedY;
+  }
+
+  // Check if ball collides with left paddle
+  if (
+    ballX - ballRadius < paddleWidth &&
+    ballY > leftPaddleY &&
+    ballY < leftPaddleY + paddleHeight
+  ) {
+    ballSpeedX = -ballSpeedX;
+  }
+
+  // Check if ball collides with right paddle
+  if (
+    ballX + ballRadius > canvas.width - paddleWidth &&
+    ballY > rightPaddleY &&
+    ballY < rightPaddleY + paddleHeight
+  ) {
+    ballSpeedX = -ballSpeedX;
+  }
+
+  // Check if ball goes out of bounds on left or right side of canvas
+  if (ballX < 0) {
+    rightPlayerScore++;
+    reset();
+  } else if (ballX > canvas.width) {
+    leftPlayerScore++;
+    reset();
+  }
+
+  // Check if a player has won
+  if (leftPlayerScore === maxScore) {
+    playerWin("Player 1");
+  } else if (rightPlayerScore === maxScore) {
+    playerWin("Pong Bot");
+  }
+}
+
+function playerWin(player) {
+  var message = "Congratulations! " + player + " wins!";
+  $('#message').text(message); // Set the message text
+  $('#message-modal').modal('show'); // Display the message modal
+  reset();
+  document.getElementById('.modalClose').addEventListener('click', function() {
+    document.getElementById('#message-modal').style.display = 'none';
+    });
+}
+
+// Reset ball to center of screen
+function reset() {
+  ballX = canvas.width / 2;
+  ballY = canvas.height / 2;
+  ballSpeedX = -ballSpeedX;
+  ballSpeedY = Math.random() * 10 - 5;
+}
+
+// Draw objects on canvas
+function draw() {
+  // Clear canvas
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  ctx.fillStyle ="#ffe593";
+  ctx.font = "30px Tahoma";
+
+  // ball
+  ctx.beginPath();
+  ctx.arc(ballX, ballY, ballRadius, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.closePath();
+
+  // left paddle
+  ctx.fillRect(0, leftPaddleY, paddleWidth, paddleHeight);
+
+  // right paddle
+  ctx.fillRect(canvas.width - paddleWidth, rightPaddleY, paddleWidth, paddleHeight);
+
+  //BALL DESIGN
+ctx.fillStyle = "#ffe593";
+for (let y= 10; y <canvas.height; y += 20) {
+  ctx.beginPath(); //create dotted line down the canvas
+  ctx.arc(canvas.width / 2, y, 5, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.closePath();
+}
+
+  // scores
+  ctx.fillText(leftPlayerScore, canvas.width / 4, 50);
+  ctx.fillText(rightPlayerScore, canvas.width * 3/4, 50);
+}
+
+// Game loop
+function loop() {
+  update();
+  draw();
+  animationId = requestAnimationFrame(loop);
+}
