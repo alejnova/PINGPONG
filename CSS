@@ -1,0 +1,190 @@
+#canvas {
+    background-color: #4d405c;
+}
+
+.description {
+    color:#032533;
+}
+
+body { /* flex box*/
+    display: flex;
+    font-family: "Roboto", "Helvetica Neue", sans-serif;
+    font-size: 18px;
+    perspective: 1000px;
+    background-color: #7e737d;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* align buttons horizontally*/
+div.buttons {
+    display: flex;
+    width: auto;
+    margin: auto;
+}
+
+div.buttons div {
+    width:auto;
+    float: left;
+    margin: auto;
+}
+
+/*play button*/
+.play {
+    transition: color 1s 0.10s;
+    box-shadow: inset 0 0 0 4px #032533;
+    color: #032533;
+    position: relative;
+  }
+  .play::before, .play::after {
+    border: 0 solid transparent;
+    box-sizing: border-box;
+    content: "";
+    pointer-events: none;
+    position: absolute;
+    width: 0;
+    height: 0;
+    bottom: 0;
+    right: 0;
+  }
+  .play::before {
+    border-bottom-width: 4px;
+    border-left-width: 4px;
+  }
+  .play::after {
+    border-top-width: 4px;
+    border-right-width: 4px;
+  }
+  .play:hover {
+    color: #ffe593;
+  }
+  .play:hover::before, .play:hover::after {
+    border-color: #ffe593;
+    transition: border-color 0s, width 0.25s, height 0.25s;
+    width: 100%;
+    height: 100%;
+  }
+  .play:hover::before {
+    transition-delay: 0s, 0s, 0.25s;
+  }
+  .play:hover::after {
+    transition-delay: 0s, 0.25s, 0s;
+  }
+  
+  .play {
+    background: none;
+    border: none;
+    cursor: pointer;
+    line-height: 1.5;
+    font: 700 1.2rem "Roboto Slab", sans-serif;
+    padding: 1em 2em;
+    margin: 10px;
+    letter-spacing: 0.05rem;
+  }
+
+  /*pause button*/
+  .pause {
+    box-shadow: inset 0 0 0 4px #032533;
+    color: #032533;
+    transition: color 1s 0.10s;
+    position: relative;
+  }
+  .pause::before, .pause::after {
+    border: 0 solid transparent;
+    box-sizing: border-box;
+    content: "";
+    pointer-events: none;
+    position: absolute;
+    width: 0;
+    height: 0;
+    bottom: 0;
+    right: 0;
+  }
+  .pause::before {
+    border-bottom-width: 4px;
+    border-left-width: 4px;
+  }
+  .pause::after {
+    border-top-width: 4px;
+    border-right-width: 4px;
+  }
+  .pause:hover {
+    color: #ffe593;
+  }
+  .pause:hover::before, .pause:hover::after {
+    border-color: #ffe593;
+    transition: border-color 0s, width 0.25s, height 0.25s;
+    width: 100%;
+    height: 100%;
+  }
+  .pause:hover::before {
+    transition-delay: 0s, 0s, 0.25s;
+  }
+  .pause:hover::after {
+    transition-delay: 0s, 0.25s, 0s;
+  }
+  
+  .pause {
+    background: none;
+    border: none;
+    cursor: pointer;
+    line-height: 1.5;
+    font: 700 1.2rem "Roboto Slab", sans-serif;
+    padding: 1em 2em;
+    margin: 10px;
+    letter-spacing: 0.05rem;
+  }
+
+  /* restart button*/
+  .restart {
+    box-shadow: inset 0 0 0 4px #032533;
+    color: #032533;
+    transition: color 1s 0.10s;
+    position: relative;
+  }
+  .restart::before, .restart::after {
+    border: 0 solid transparent;
+    box-sizing: border-box;
+    content: "";
+    pointer-events: none;
+    position: absolute;
+    width: 0;
+    height: 0;
+    bottom: 0;
+    right: 0;
+  }
+  .restart::before {
+    border-bottom-width: 4px;
+    border-left-width: 4px;
+  }
+  .restart::after {
+    border-top-width: 4px;
+    border-right-width: 4px;
+  }
+  .restart:hover {
+    color: #ffe593;
+  }
+  .restart:hover::before, .restart:hover::after {
+    border-color: #ffe593;
+    transition: border-color 0s, width 0.25s, height 0.25s;
+    width: 100%;
+    height: 100%;
+  }
+  .restart:hover::before {
+    transition-delay: 0s, 0s, 0.25s;
+  }
+  .restart:hover::after {
+    transition-delay: 0s, 0.25s, 0s;
+  }
+  
+  .restart {
+    background: none;
+    border: none;
+    cursor: pointer;
+    line-height: 1.5;
+    font: 700 1.2rem "Roboto Slab", sans-serif;
+    padding: 1em 2em;
+    margin: 10px;
+    letter-spacing: 0.05rem;
+  }
